@@ -7,220 +7,103 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --pitch: #0a2e1a;
-    --pitch-mid: #0f3d24;
-    --pitch-light: #165c34;
-    --grass: #1a7a42;
-    --line: #2ecc71;
-    --gold: #f5c518;
-    --silver: #c0c0c0;
-    --bronze: #cd7f32;
-    --white: #f0f4f0;
-    --muted: #8aab96;
-    --danger: #e74c3c;
-    --card: rgba(15, 61, 36, 0.7);
-    --border: rgba(46, 204, 113, 0.2);
+    --pitch: #0a2e1a; --pitch-mid: #0f3d24; --line: #2ecc71;
+    --gold: #f5c518; --silver: #c0c0c0; --bronze: #cd7f32;
+    --white: #f0f4f0; --muted: #8aab96; --danger: #e74c3c;
+    --card: rgba(15,61,36,0.7); --border: rgba(46,204,113,0.2);
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
+  * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    background: var(--pitch);
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    background-image:
-      repeating-linear-gradient(
-        0deg, transparent, transparent 60px,
-        rgba(255,255,255,0.015) 60px,
-        rgba(255,255,255,0.015) 120px
-      );
+    background: var(--pitch); color: var(--white);
+    font-family: 'Inter', sans-serif; min-height: 100vh;
+    background-image: repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,0.015) 60px,rgba(255,255,255,0.015) 120px);
   }
-
   header {
-    background: linear-gradient(135deg, #071a0e 0%, var(--pitch-mid) 100%);
+    background: linear-gradient(135deg,#071a0e,var(--pitch-mid));
     border-bottom: 2px solid var(--line);
-    padding: 24px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px;
-    position: sticky; top: 0; z-index: 100;
+    padding: 20px 28px; display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    position: sticky; top:0; z-index:100;
     box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   }
-
-  .logo { display: flex; align-items: center; gap: 14px; }
+  .logo { display:flex; align-items:center; gap:14px; }
   .logo-ball {
-    width: 48px; height: 48px; background: var(--white);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 26px; box-shadow: 0 0 20px rgba(46,204,113,0.4);
+    width:48px; height:48px; background:var(--white); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:26px;
     animation: pulse 3s ease-in-out infinite;
   }
-  @keyframes pulse {
-    0%,100% { box-shadow: 0 0 20px rgba(46,204,113,0.4); }
-    50% { box-shadow: 0 0 35px rgba(46,204,113,0.8); }
-  }
-
-  h1 { font-family: 'Bebas Neue', cursive; font-size: 2.2rem; letter-spacing: 3px; line-height: 1; }
-  h1 span { color: var(--line); }
-
-  .season-badge {
-    background: var(--line); color: var(--pitch);
-    font-family: 'JetBrains Mono', monospace; font-weight: 600;
-    font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;
-  }
-
-  .admin-bar {
-    background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border);
-    padding: 10px 32px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  }
-  .admin-bar label { font-size: 0.8rem; color: var(--muted); }
-
+  @keyframes pulse { 0%,100%{box-shadow:0 0 20px rgba(46,204,113,0.4)} 50%{box-shadow:0 0 35px rgba(46,204,113,0.8)} }
+  h1 { font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:3px; line-height:1; }
+  h1 span { color:var(--line); }
+  .badge { background:var(--line); color:var(--pitch); font-family:'JetBrains Mono',monospace; font-weight:600; font-size:0.75rem; padding:4px 12px; border-radius:20px; }
+  .admin-bar { background:rgba(0,0,0,0.3); border-bottom:1px solid var(--border); padding:10px 28px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .admin-bar label { font-size:0.8rem; color:var(--muted); }
   #adminToggle {
-    background: var(--pitch-mid); border: 1px solid var(--border);
-    color: var(--white); padding: 6px 16px; border-radius: 6px;
-    font-size: 0.8rem; font-family: 'JetBrains Mono', monospace;
-    cursor: pointer; transition: all 0.2s;
+    background:var(--pitch-mid); border:1px solid var(--border); color:var(--white);
+    padding:6px 16px; border-radius:6px; font-size:0.8rem; cursor:pointer; transition:all 0.2s;
   }
-  #adminToggle:hover, #adminToggle.active { background: var(--line); color: var(--pitch); border-color: var(--line); }
-
-  #syncStatus {
-    font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;
-    padding: 4px 12px; border-radius: 20px; margin-left: auto;
-  }
-  #syncStatus.syncing { background: rgba(245,197,24,0.15); color: var(--gold); }
-  #syncStatus.ok     { background: rgba(46,204,113,0.15); color: var(--line); }
-  #syncStatus.err    { background: rgba(231,76,60,0.15);  color: var(--danger); }
-
-  .admin-panel {
-    display: none; background: rgba(7,26,14,0.95);
-    border-bottom: 2px solid var(--line);
-    padding: 20px 32px; gap: 12px; flex-wrap: wrap; align-items: center;
-  }
-  .admin-panel.open { display: flex; }
-
-  .admin-panel input {
-    background: var(--pitch-mid); border: 1px solid var(--border);
-    color: var(--white); padding: 8px 14px; border-radius: 6px;
-    font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none;
-  }
-  .admin-panel input:focus { border-color: var(--line); }
-
-  .sep { width:1px; height:32px; background:var(--border); margin:0 4px; }
-
-  .btn {
-    padding: 8px 18px; border-radius: 6px; font-size: 0.85rem;
-    font-weight: 600; cursor: pointer; border: none;
-    transition: all 0.2s; font-family: 'Inter', sans-serif;
-  }
-  .btn-green { background: var(--line); color: var(--pitch); }
-  .btn-green:hover { background: #27ae60; }
-  .btn-red { background: var(--danger); color: #fff; }
-  .btn-red:hover { background: #c0392b; }
-  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
-  .btn-outline:hover { border-color: var(--line); color: var(--white); }
-
-  .main { display: flex; min-height: calc(100vh - 130px); }
-
-  .table-section {
-    flex: 1; padding: 28px 32px; overflow-x: auto;
-    border-right: 1px solid var(--border);
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', cursive; font-size: 1.4rem;
-    letter-spacing: 2px; color: var(--line); margin-bottom: 20px;
-    display: flex; align-items: center; gap: 10px;
-  }
+  #adminToggle.active { background:var(--line); color:var(--pitch); border-color:var(--line); }
+  #syncStatus { font-size:0.75rem; font-family:'JetBrains Mono',monospace; padding:4px 12px; border-radius:20px; margin-left:auto; }
+  .s-ok  { background:rgba(46,204,113,0.15); color:var(--line); }
+  .s-syn { background:rgba(245,197,24,0.15); color:var(--gold); }
+  .s-err { background:rgba(231,76,60,0.15);  color:var(--danger); }
+  .admin-panel { display:none; background:rgba(7,26,14,0.95); border-bottom:2px solid var(--line); padding:16px 28px; gap:10px; flex-wrap:wrap; align-items:center; }
+  .admin-panel.open { display:flex; }
+  .admin-panel input { background:var(--pitch-mid); border:1px solid var(--border); color:var(--white); padding:8px 14px; border-radius:6px; font-size:0.85rem; outline:none; }
+  .admin-panel input:focus { border-color:var(--line); }
+  .btn { padding:8px 18px; border-radius:6px; font-size:0.85rem; font-weight:600; cursor:pointer; border:none; transition:all 0.2s; font-family:'Inter',sans-serif; }
+  .btn-green { background:var(--line); color:var(--pitch); }
+  .btn-green:hover { background:#27ae60; }
+  .btn-green:disabled { opacity:0.5; cursor:not-allowed; }
+  .btn-red { background:var(--danger); color:#fff; }
+  .btn-outline { background:transparent; border:1px solid var(--border); color:var(--muted); }
+  .btn-outline:hover { border-color:var(--line); color:var(--white); }
+  .sep { width:1px; height:28px; background:var(--border); }
+  .main { display:flex; min-height:calc(100vh - 140px); }
+  .table-section { flex:1; padding:24px 28px; overflow-x:auto; border-right:1px solid var(--border); }
+  .section-title { font-family:'Bebas Neue',cursive; font-size:1.3rem; letter-spacing:2px; color:var(--line); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
   .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
-
-  table { width:100%; border-collapse:collapse; font-size:0.88rem; min-width:500px; }
-  thead tr { background: rgba(46,204,113,0.1); border-bottom: 2px solid var(--line); }
-  th {
-    padding: 12px 14px; text-align: center;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-    letter-spacing: 1px; color: var(--line); font-weight: 600; white-space: nowrap;
-  }
-  th.name-col { text-align: left; }
-  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
-  tbody tr:hover { background: rgba(46,204,113,0.05); }
-  td { padding: 11px 14px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; color: var(--muted); }
-  td.name-cell { text-align:left; color:var(--white); font-family:'Inter',sans-serif; font-weight:600; font-size:0.92rem; }
+  table { width:100%; border-collapse:collapse; font-size:0.88rem; min-width:460px; }
+  thead tr { background:rgba(46,204,113,0.1); border-bottom:2px solid var(--line); }
+  th { padding:11px 13px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:1px; color:var(--line); font-weight:600; white-space:nowrap; }
+  th.name-col { text-align:left; }
+  tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
+  tbody tr:hover { background:rgba(46,204,113,0.05); }
+  td { padding:10px 13px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:var(--muted); }
+  td.name-cell { text-align:left; color:var(--white); font-family:'Inter',sans-serif; font-weight:600; }
   td.total-cell { color:var(--line); font-weight:700; font-size:1rem; }
-  td.editable { cursor: pointer; }
-  td.editable:hover { color: var(--white); }
-  td input.cell-input {
-    width:60px; background:var(--pitch); border:1px solid var(--line);
-    color:var(--line); text-align:center; padding:4px; border-radius:4px;
-    font-family:'JetBrains Mono',monospace; font-size:0.88rem; outline:none;
-  }
-  .delete-row-btn {
-    background:none; border:none; color:var(--danger);
-    cursor:pointer; font-size:0.9rem; opacity:0.5; transition:opacity 0.2s; padding:2px 6px;
-  }
-  .delete-row-btn:hover { opacity:1; }
-
-  .leaderboard-section { width:300px; min-width:280px; padding:28px 20px; background:rgba(7,26,14,0.5); }
+  td.editable { cursor:pointer; }
+  td.editable:hover { color:var(--white); }
+  td input.cell-input { width:58px; background:var(--pitch); border:1px solid var(--line); color:var(--line); text-align:center; padding:4px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.88rem; outline:none; }
+  .del-btn { background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.9rem; opacity:0.4; transition:opacity 0.2s; padding:2px 6px; }
+  .del-btn:hover { opacity:1; }
+  .leaderboard-section { width:290px; min-width:260px; padding:24px 18px; background:rgba(7,26,14,0.5); }
   .lb-list { display:flex; flex-direction:column; gap:10px; }
-  .lb-card {
-    background:var(--card); border:1px solid var(--border); border-radius:10px;
-    padding:14px 16px; display:flex; align-items:center; gap:12px;
-    transition:transform 0.2s, border-color 0.2s;
-    animation: slideIn 0.3s ease;
-  }
-  @keyframes slideIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+  .lb-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:13px 15px; display:flex; align-items:center; gap:12px; transition:transform 0.2s,border-color 0.2s; }
   .lb-card:hover { transform:translateX(-4px); border-color:var(--line); }
-  .lb-card.rank-1 { border-color:var(--gold); background:rgba(245,197,24,0.08); }
-  .lb-card.rank-2 { border-color:var(--silver); background:rgba(192,192,192,0.06); }
-  .lb-card.rank-3 { border-color:var(--bronze); background:rgba(205,127,50,0.06); }
-  .lb-rank { font-family:'Bebas Neue',cursive; font-size:1.5rem; width:32px; text-align:center; line-height:1; }
-  .rank-1 .lb-rank { color:var(--gold); }
-  .rank-2 .lb-rank { color:var(--silver); }
-  .rank-3 .lb-rank { color:var(--bronze); }
-  .lb-card:not(.rank-1):not(.rank-2):not(.rank-3) .lb-rank { color:var(--muted); font-size:1.1rem; }
-  .lb-info { flex:1; }
-  .lb-name { font-weight:700; font-size:0.95rem; color:var(--white); }
-  .lb-pts-label { font-size:0.72rem; color:var(--muted); margin-top:2px; }
-  .lb-points { font-family:'Bebas Neue',cursive; font-size:1.8rem; color:var(--line); line-height:1; }
-  .rank-1 .lb-points { color:var(--gold); }
-  .rank-2 .lb-points { color:var(--silver); }
-  .rank-3 .lb-points { color:var(--bronze); }
-
-  .overlay {
-    display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,0.7); z-index:200;
-    align-items:center; justify-content:center;
-  }
+  .lb-card.r1 { border-color:var(--gold); background:rgba(245,197,24,0.08); }
+  .lb-card.r2 { border-color:var(--silver); background:rgba(192,192,192,0.06); }
+  .lb-card.r3 { border-color:var(--bronze); background:rgba(205,127,50,0.06); }
+  .lb-rank { font-family:'Bebas Neue',cursive; font-size:1.4rem; width:30px; text-align:center; line-height:1; color:var(--muted); }
+  .r1 .lb-rank{color:var(--gold)} .r2 .lb-rank{color:var(--silver)} .r3 .lb-rank{color:var(--bronze)}
+  .lb-name { font-weight:700; font-size:0.92rem; color:var(--white); }
+  .lb-sub { font-size:0.7rem; color:var(--muted); margin-top:2px; }
+  .lb-pts { font-family:'Bebas Neue',cursive; font-size:1.7rem; color:var(--line); line-height:1; }
+  .r1 .lb-pts{color:var(--gold)} .r2 .lb-pts{color:var(--silver)} .r3 .lb-pts{color:var(--bronze)}
+  .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:200; align-items:center; justify-content:center; }
   .overlay.show { display:flex; }
-  .overlay-box {
-    background:var(--pitch-mid); border:1px solid var(--line);
-    border-radius:14px; padding:32px; text-align:center;
-    font-family:'Inter',sans-serif;
-  }
-  .overlay-box p { color:var(--muted); margin-top:10px; font-size:0.9rem; }
-  .spinner {
-    width:40px; height:40px; border:3px solid var(--border);
-    border-top-color:var(--line); border-radius:50%;
-    animation:spin 0.8s linear infinite; margin:0 auto 16px;
-  }
+  .overlay-box { background:var(--pitch-mid); border:1px solid var(--line); border-radius:14px; padding:32px; text-align:center; }
+  .spinner { width:38px; height:38px; border:3px solid var(--border); border-top-color:var(--line); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 14px; }
   @keyframes spin { to{transform:rotate(360deg)} }
-
-  .toast {
-    position:fixed; bottom:24px; right:24px;
-    padding:12px 22px; border-radius:10px;
-    font-weight:700; font-size:0.85rem;
-    box-shadow:0 8px 24px rgba(0,0,0,0.4);
-    opacity:0; transform:translateY(10px);
-    transition:all 0.3s; pointer-events:none; z-index:300;
-  }
+  .toast { position:fixed; bottom:24px; right:24px; padding:12px 22px; border-radius:10px; font-weight:700; font-size:0.85rem; box-shadow:0 8px 24px rgba(0,0,0,0.4); opacity:0; transform:translateY(10px); transition:all 0.3s; pointer-events:none; z-index:300; }
   .toast.show { opacity:1; transform:translateY(0); }
-  .toast.success { background:var(--line); color:var(--pitch); }
-  .toast.error   { background:var(--danger); color:#fff; }
-
+  .toast.ok  { background:var(--line); color:var(--pitch); }
+  .toast.err { background:var(--danger); color:#fff; }
+  .toast.info { background:#2980b9; color:#fff; }
   @media(max-width:768px){
-    header{padding:16px 18px;} h1{font-size:1.6rem;}
     .main{flex-direction:column;}
-    .table-section{padding:20px 14px;border-right:none;border-bottom:1px solid var(--border);}
-    .leaderboard-section{width:100%;padding:20px 14px;}
-    .admin-bar,.admin-panel{padding:10px 14px;}
+    .table-section{padding:16px 12px;border-right:none;border-bottom:1px solid var(--border);}
+    .leaderboard-section{width:100%;padding:16px 12px;}
   }
 </style>
 </head>
@@ -229,8 +112,8 @@
 <div class="overlay" id="loadingOverlay">
   <div class="overlay-box">
     <div class="spinner"></div>
-    <div style="font-family:'Bebas Neue';font-size:1.4rem;letter-spacing:2px;color:var(--line)">LOADING DATA</div>
-    <p>Fetching from Google Sheets...</p>
+    <div style="font-family:'Bebas Neue';font-size:1.3rem;letter-spacing:2px;color:var(--line)">LOADING DATA</div>
+    <p style="color:var(--muted);font-size:0.85rem;margin-top:8px">Fetching from Google Sheets...</p>
   </div>
 </div>
 
@@ -239,25 +122,25 @@
     <div class="logo-ball">⚽</div>
     <div>
       <h1>PABLO'S <span>PREDICTION</span></h1>
-      <div style="color:var(--muted);font-size:0.75rem;margin-top:2px;letter-spacing:1px;">POINTS TABLE & LEADERBOARD</div>
+      <div style="color:var(--muted);font-size:0.72rem;margin-top:2px;letter-spacing:1px">POINTS TABLE & LEADERBOARD</div>
     </div>
   </div>
-  <span class="season-badge">SEASON 2024–25</span>
+  <span class="badge">SEASON 2024–25</span>
 </header>
 
 <div class="admin-bar">
   <label>Controls:</label>
   <button id="adminToggle" onclick="toggleAdmin()">🔧 Edit Mode</button>
-  <button class="btn btn-outline" style="font-size:0.78rem;padding:5px 12px;" onclick="loadFromSheet()">🔄 Refresh</button>
-  <span id="syncStatus" class="ok">● Live</span>
+  <button class="btn btn-outline" style="font-size:0.78rem;padding:5px 12px" onclick="loadData()">🔄 Refresh</button>
+  <span id="syncStatus" class="s-ok">● Live</span>
 </div>
 
 <div class="admin-panel" id="adminPanel">
-  <input type="text" id="newPlayerName" placeholder="Player name..." />
-  <button class="btn btn-green" onclick="addPlayer()">+ Add Player</button>
+  <input type="text" id="newPlayer" placeholder="Player name..." />
+  <button class="btn btn-green" id="addPlayerBtn" onclick="addPlayer()">+ Add Player</button>
   <div class="sep"></div>
-  <input type="text" id="newMatchday" placeholder="Matchday (e.g. MD5)..." />
-  <button class="btn btn-green" onclick="addMatchday()">+ Add Matchday</button>
+  <input type="text" id="newMD" placeholder="Matchday (e.g. MD5)..." />
+  <button class="btn btn-green" id="addMDBtn" onclick="addMatchday()">+ Add Matchday</button>
   <div class="sep"></div>
   <button class="btn btn-outline" onclick="exportCSV()">⬇ Export CSV</button>
 </div>
@@ -278,224 +161,176 @@
 <script>
 const API = "https://script.google.com/macros/s/AKfycbzIyff77JExYj4wSNIiKe2fm15Aph86u4evgjPW-VnVd1uI64ouiiahzhr2_dgS_ADtRg/exec";
 
-let sheetData = []; // raw 2D array from sheet
+let sheet = [];   // raw 2D array
 let adminOpen = false;
-let isSaving = false;
+let busy = false;
 
-// ── Sheet Communication ──
-async function api(payload) {
-  setSync('syncing', '⟳ Syncing...');
-  try {
-    const res = await fetch(API, {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    });
-    const json = await res.json();
-    setSync('ok', '● Live');
-    return json;
-  } catch (e) {
-    setSync('err', '✕ Offline');
-    toast('Could not reach Google Sheets', 'error');
-    throw e;
-  }
+// ── Core fetch (GET only — no CORS issues) ──
+async function gsFetch(params) {
+  const url = API + "?" + new URLSearchParams(params).toString() + "&t=" + Date.now();
+  const res = await fetch(url);
+  return res.json();
 }
 
-async function loadFromSheet() {
-  setSync('syncing', '⟳ Loading...');
+// ── Load data ──
+async function loadData() {
+  setSyncStatus('syn', '⟳ Loading...');
   document.getElementById('loadingOverlay').classList.add('show');
   try {
-    const res = await fetch(API + '?t=' + Date.now());
-    sheetData = await res.json();
-    setSync('ok', '● Live');
+    const data = await gsFetch({ action: 'read' });
+    sheet = data;
+    setSyncStatus('ok', '● Live');
     renderAll();
-    toast('Data loaded ✓', 'success');
+    showToast('Data loaded ✓', 'ok');
   } catch(e) {
-    setSync('err', '✕ Error');
-    toast('Failed to load data', 'error');
+    setSyncStatus('err', '✕ Error');
+    showToast('Failed to load. Check Apps Script.', 'err');
   } finally {
     document.getElementById('loadingOverlay').classList.remove('show');
   }
 }
 
-function setSync(cls, text) {
+// ── Write via GET (no CORS problem) ──
+async function gsWrite(params) {
+  setSyncStatus('syn', '⟳ Saving...');
+  try {
+    await gsFetch(params);
+    setSyncStatus('ok', '● Live');
+    await loadData();
+    return true;
+  } catch(e) {
+    setSyncStatus('err', '✕ Error');
+    showToast('Save failed. Try again.', 'err');
+    return false;
+  }
+}
+
+function setSyncStatus(cls, text) {
   const el = document.getElementById('syncStatus');
-  el.className = 'syncStatus ' + cls;
+  el.className = 's-' + cls;
   el.id = 'syncStatus';
   el.textContent = text;
 }
 
-// ── Parse sheet data ──
-function getMatchdays() {
-  if (!sheetData.length) return [];
-  return sheetData[0].slice(1); // skip "Name" col
-}
-
-function getPlayers() {
-  if (sheetData.length < 2) return [];
-  return sheetData.slice(1).map(row => ({
-    name: row[0],
-    points: row.slice(1)
-  }));
-}
-
-function totalFor(points) {
-  return points.reduce((a, b) => a + (parseInt(b) || 0), 0);
-}
+// ── Helpers ──
+function getMatchdays() { return sheet.length ? sheet[0].slice(1) : []; }
+function getPlayers()   { return sheet.slice(1).map(r => ({ name: r[0], pts: r.slice(1) })); }
+function total(pts)     { return pts.reduce((a,b) => a + (parseInt(b)||0), 0); }
 
 // ── Render ──
-function renderAll() {
-  renderTable();
-  renderLeaderboard();
-}
+function renderAll() { renderTable(); renderLeaderboard(); }
 
 function renderTable() {
-  const matchdays = getMatchdays();
+  const mds = getMatchdays();
   const players = getPlayers();
-
   if (!players.length) {
     document.getElementById('tableWrap').innerHTML =
-      '<p style="color:var(--muted);padding:20px">No data yet. Add players in Edit Mode.</p>';
+      '<p style="color:var(--muted);padding:20px">No players yet. Enable Edit Mode to add players.</p>';
     return;
   }
-
-  let html = `<table><thead><tr>
+  let h = `<table><thead><tr>
     <th class="name-col">PLAYER</th>
-    ${matchdays.map(md => `<th>${escHtml(String(md))}</th>`).join('')}
+    ${mds.map(m=>`<th>${esc(String(m))}</th>`).join('')}
     <th>TOTAL</th>
     ${adminOpen ? '<th></th>' : ''}
   </tr></thead><tbody>`;
 
-  players.forEach((player, pi) => {
-    const sheetRow = pi + 2; // 1-indexed, +1 for header
-    html += `<tr>
-      <td class="name-cell">${escHtml(player.name)}</td>
-      ${matchdays.map((_, mi) => {
-        const val = player.points[mi] ?? '';
-        const sheetCol = mi + 2;
-        if (adminOpen) {
-          return `<td class="editable" onclick="startEdit(this,${sheetRow},${sheetCol},'${escAttr(String(val))}')">${val !== '' ? val : '<span style="opacity:.3">–</span>'}</td>`;
-        }
-        return `<td>${val !== '' ? val : '<span style="opacity:.3">–</span>'}</td>`;
+  players.forEach((p, pi) => {
+    const sRow = pi + 2;
+    h += `<tr>
+      <td class="name-cell">${esc(p.name)}</td>
+      ${mds.map((_,mi) => {
+        const v = p.pts[mi] ?? '';
+        const sCol = mi + 2;
+        if (adminOpen) return `<td class="editable" onclick="startEdit(this,${sRow},${sCol},'${escA(String(v))}')">${v!=='' ? v : '<span style="opacity:.3">–</span>'}</td>`;
+        return `<td>${v!=='' ? v : '<span style="opacity:.3">–</span>'}</td>`;
       }).join('')}
-      <td class="total-cell">${totalFor(player.points)}</td>
-      ${adminOpen ? `<td><button class="delete-row-btn" onclick="removePlayer(${sheetRow})" title="Remove">✕</button></td>` : ''}
+      <td class="total-cell">${total(p.pts)}</td>
+      ${adminOpen ? `<td><button class="del-btn" onclick="removePlayer(${sRow},'${escA(p.name)}')">✕</button></td>` : ''}
     </tr>`;
   });
-
-  html += '</tbody></table>';
-  document.getElementById('tableWrap').innerHTML = html;
+  h += '</tbody></table>';
+  document.getElementById('tableWrap').innerHTML = h;
 }
 
 function renderLeaderboard() {
-  const players = getPlayers();
-  const ranked = [...players]
-    .map(p => ({ name: p.name, total: totalFor(p.points) }))
-    .sort((a, b) => b.total - a.total);
-
+  const ranked = getPlayers().map(p=>({name:p.name,total:total(p.pts)})).sort((a,b)=>b.total-a.total);
   const medals = ['🥇','🥈','🥉'];
-  document.getElementById('leaderboard').innerHTML = ranked.map((p, i) => `
-    <div class="lb-card rank-${i+1}">
-      <div class="lb-rank">${i < 3 ? medals[i] : i+1}</div>
-      <div class="lb-info">
-        <div class="lb-name">${escHtml(p.name)}</div>
-        <div class="lb-pts-label">total points</div>
+  document.getElementById('leaderboard').innerHTML = ranked.map((p,i)=>`
+    <div class="lb-card r${i+1}">
+      <div class="lb-rank">${i<3 ? medals[i] : i+1}</div>
+      <div style="flex:1">
+        <div class="lb-name">${esc(p.name)}</div>
+        <div class="lb-sub">total points</div>
       </div>
-      <div class="lb-points">${p.total}</div>
-    </div>
-  `).join('');
+      <div class="lb-pts">${p.total}</div>
+    </div>`).join('');
 }
 
 // ── Edit cell ──
-function startEdit(cell, row, col, current) {
-  if (!adminOpen || isSaving) return;
-  cell.innerHTML = `<input class="cell-input" type="number" min="0" max="99" value="${current === '–' ? '' : current}"
+function startEdit(cell, row, col, cur) {
+  if (!adminOpen || busy) return;
+  cell.innerHTML = `<input class="cell-input" type="number" min="0" max="99" value="${cur==='–'?'':cur}"
     onblur="commitEdit(this,${row},${col})"
-    onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape')cancelEdit(this,${row},${col},'${current}')"
+    onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape'){renderAll();}"
     autofocus />`;
   cell.querySelector('input').select();
 }
 
-async function commitEdit(input, row, col) {
-  const val = input.value.trim();
-  const num = val === '' ? '' : (parseInt(val) || 0);
-  isSaving = true;
-  // Optimistic update
-  if (sheetData[row - 1]) sheetData[row - 1][col - 1] = num;
-  renderAll();
-  try {
-    await api({ action: 'updateCell', row, col, value: num });
-    toast('✓ Saved', 'success');
-  } catch(e) {
-    await loadFromSheet(); // revert on error
-  }
-  isSaving = false;
-}
-
-function cancelEdit(input, row, col, original) {
-  if (sheetData[row-1]) sheetData[row-1][col-1] = original;
-  renderAll();
+async function commitEdit(inp, row, col) {
+  if (busy) return;
+  busy = true;
+  const val = inp.value.trim();
+  const num = val === '' ? '' : (parseInt(val)||0);
+  const ok = await gsWrite({ action:'updateCell', row, col, value: num });
+  if (ok) showToast('✓ Saved', 'ok');
+  busy = false;
 }
 
 // ── Add Player ──
 async function addPlayer() {
-  const inp = document.getElementById('newPlayerName');
+  const inp = document.getElementById('newPlayer');
   const name = inp.value.trim();
-  if (!name) return;
-  const matchdays = getMatchdays();
-  const rowData = [name, ...Array(matchdays.length).fill('')];
+  if (!name || busy) return;
+  busy = true;
+  setBtnLoading('addPlayerBtn', true);
   inp.value = '';
-  sheetData.push(rowData); // optimistic
-  renderAll();
-  try {
-    await api({ action: 'addRow', rowData });
-    toast(`${name} added ✓`, 'success');
-    await loadFromSheet();
-  } catch(e) {
-    sheetData.pop();
-    renderAll();
-  }
+  const mds = getMatchdays();
+  const rowData = JSON.stringify([name, ...Array(mds.length).fill('')]);
+  const ok = await gsWrite({ action:'addRow', rowData });
+  if (ok) showToast(`${name} added ✓`, 'ok');
+  setBtnLoading('addPlayerBtn', false);
+  busy = false;
 }
 
 // ── Remove Player ──
-async function removePlayer(sheetRow) {
-  const name = sheetData[sheetRow - 1]?.[0] || 'this player';
-  if (!confirm(`Remove "${name}"?`)) return;
-  const removed = sheetData.splice(sheetRow - 1, 1);
-  renderAll();
-  try {
-    await api({ action: 'deleteRow', row: sheetRow });
-    toast(`${name} removed`, 'success');
-    await loadFromSheet();
-  } catch(e) {
-    sheetData.splice(sheetRow - 1, 0, ...removed);
-    renderAll();
-  }
+async function removePlayer(row, name) {
+  if (!confirm(`Remove "${name}"?`) || busy) return;
+  busy = true;
+  const ok = await gsWrite({ action:'deleteRow', row });
+  if (ok) showToast(`${name} removed`, 'ok');
+  busy = false;
 }
 
 // ── Add Matchday ──
 async function addMatchday() {
-  const inp = document.getElementById('newMatchday');
-  const label = inp.value.trim() || `MD${getMatchdays().length + 1}`;
+  const inp = document.getElementById('newMD');
+  const label = inp.value.trim() || `MD${getMatchdays().length+1}`;
+  if (busy) return;
+  busy = true;
+  setBtnLoading('addMDBtn', true);
   inp.value = '';
-  // Optimistic update
-  if (sheetData[0]) sheetData[0].push(label);
-  sheetData.slice(1).forEach(row => row.push(''));
-  renderAll();
-  try {
-    await api({ action: 'addColumn', header: label });
-    toast(`${label} added ✓`, 'success');
-    await loadFromSheet();
-  } catch(e) {
-    await loadFromSheet();
-  }
+  const ok = await gsWrite({ action:'addColumn', header: label });
+  if (ok) showToast(`${label} added ✓`, 'ok');
+  setBtnLoading('addMDBtn', false);
+  busy = false;
 }
 
 // ── Admin toggle ──
 function toggleAdmin() {
   adminOpen = !adminOpen;
-  const panel = document.getElementById('adminPanel');
+  document.getElementById('adminPanel').classList.toggle('open', adminOpen);
   const btn = document.getElementById('adminToggle');
-  panel.classList.toggle('open', adminOpen);
   btn.classList.toggle('active', adminOpen);
   btn.textContent = adminOpen ? '✓ Exit Edit Mode' : '🔧 Edit Mode';
   renderAll();
@@ -503,34 +338,36 @@ function toggleAdmin() {
 
 // ── Export CSV ──
 function exportCSV() {
-  const matchdays = getMatchdays();
+  const mds = getMatchdays();
   const players = getPlayers();
-  let csv = ['Player', ...matchdays, 'Total'].join(',') + '\n';
-  players.forEach(p => {
-    csv += [p.name, ...p.points.map(v => v === '' ? 0 : v), totalFor(p.points)].join(',') + '\n';
-  });
+  let csv = ['Player',...mds,'Total'].join(',') + '\n';
+  players.forEach(p => { csv += [p.name,...p.pts.map(v=>v===''?0:v),total(p.pts)].join(',') + '\n'; });
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
   a.download = `pablos-prediction-${Date.now()}.csv`;
   a.click();
 }
 
-// ── Toast ──
-function toast(msg, type='success') {
+function setBtnLoading(id, loading) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.textContent = loading ? '⟳ Saving...' : (id==='addPlayerBtn' ? '+ Add Player' : '+ Add Matchday');
+}
+
+function showToast(msg, type='ok') {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.className = `toast ${type} show`;
-  setTimeout(() => el.classList.remove('show'), 2500);
+  setTimeout(()=>el.classList.remove('show'), 2500);
 }
 
-function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escAttr(s) { return String(s).replace(/'/g,"\\'"); }
+function esc(s)  { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escA(s) { return String(s).replace(/'/g,"\\'"); }
 
-// ── Auto-refresh every 60 seconds ──
-setInterval(loadFromSheet, 60000);
-
-// ── Init ──
-loadFromSheet();
+// Auto-refresh every 60s
+setInterval(loadData, 60000);
+loadData();
 </script>
 </body>
 </html>
