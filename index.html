@@ -371,6 +371,9 @@ loadData();
 </script>
 </body>
 </html> -->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -401,11 +404,13 @@ loadData();
   }
   .logo { display:flex; align-items:center; gap:14px; }
   .logo-ball {
-    width:48px; height:48px; background:var(--white); border-radius:50%;
-    display:flex; align-items:center; justify-content:center; font-size:26px;
+    width:56px; height:56px;
+    display:flex; align-items:center; justify-content:center;
     animation: pulse 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(245,197,24,0.6));
   }
-  @keyframes pulse { 0%,100%{box-shadow:0 0 20px rgba(46,204,113,0.4)} 50%{box-shadow:0 0 35px rgba(46,204,113,0.8)} }
+  .logo-ball img { width:100%; height:100%; object-fit:contain; }
+  @keyframes pulse { 0%,100%{filter:drop-shadow(0 0 10px rgba(245,197,24,0.6))} 50%{filter:drop-shadow(0 0 22px rgba(245,197,24,1))} }
   h1 { font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:3px; line-height:1; }
   h1 span { color:var(--line); }
   .badge { background:var(--line); color:var(--pitch); font-family:'JetBrains Mono',monospace; font-weight:600; font-size:0.75rem; padding:4px 12px; border-radius:20px; }
@@ -492,13 +497,13 @@ loadData();
 
 <header>
   <div class="logo">
-    <div class="logo-ball">⚽</div>
+    <div class="logo-ball"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/FIFA_World_Cup_Trophy_2010.jpg/220px-FIFA_World_Cup_Trophy_2010.jpg" alt="FIFA World Cup Trophy" /></div>
     <div>
       <h1>PABLO'S <span>PREDICTION</span></h1>
       <div style="color:var(--muted);font-size:0.72rem;margin-top:2px;letter-spacing:1px">POINTS TABLE & LEADERBOARD</div>
     </div>
   </div>
-  <span class="badge">FIFA 2026</span>
+  <span class="badge">SEASON 2024–25</span>
 </header>
 
 <div class="admin-bar">
