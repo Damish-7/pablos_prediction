@@ -671,20 +671,43 @@ function renderLeaderboard() {
   const mds = getMatchdays();
   const medals = ['🥇','🥈','🥉'];
 
-  // ── Current leaderboard (all matchdays) ──
+  // ── Previous MD standings (exclude last matchday) ──
+  const prevMDCount = mds.length - 1;
+  const lastMD = mds[mds.length - 1];
+
+  const prev = prevMDCount > 0
+    ? players.map(p=>({ name:p.name, total:total(p.pts.slice(0, prevMDCount)) })).sort((a,b)=>b.total-a.total)
+    : [];
+
+  // Build prev rank map
+  const prevRankMap = {};
+  prev.forEach((p,i) => prevRankMap[p.name] = i+1);
+
+  // ── Current leaderboard with arrows vs previous MD ──
   const current = players.map(p=>({name:p.name, total:total(p.pts)})).sort((a,b)=>b.total-a.total);
-  document.getElementById('leaderboard').innerHTML = current.map((p,i)=>`
-    <div class="lb-card r${i+1}">
-      <div class="lb-rank">${i<3 ? medals[i] : i+1}</div>
+
+  document.getElementById('leaderboard').innerHTML = current.map((p,i)=>{
+    const currRank = i + 1;
+    const prevRank = prevRankMap[p.name];
+    let changeHtml = '';
+    if (prevRank !== undefined && prevMDCount > 0) {
+      const diff = prevRank - currRank; // positive = rose, negative = dropped
+      if (diff > 0)      changeHtml = `<span class="lb-change up">▲${diff}</span>`;
+      else if (diff < 0) changeHtml = `<span class="lb-change down">▼${Math.abs(diff)}</span>`;
+      else               changeHtml = `<span class="lb-change same">–</span>`;
+    }
+    return `
+    <div class="lb-card r${currRank}">
+      <div class="lb-rank">${currRank<=3 ? medals[currRank-1] : currRank}</div>
       <div style="flex:1">
-        <div class="lb-name">${esc(p.name)}</div>
+        <div class="lb-name">${esc(p.name)}${changeHtml}</div>
         <div class="lb-sub">total points</div>
       </div>
       <div class="lb-pts">${p.total}</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
-  // ── Previous MD leaderboard (exclude last matchday) ──
-  const prevMDCount = mds.length - 1;
+  // ── Previous MD leaderboard — plain, no arrows ──
   if (prevMDCount <= 0) {
     document.getElementById('leaderboardPrev').innerHTML =
       '<p style="color:var(--muted);font-size:0.82rem;text-align:center;padding:12px">Not enough matchdays yet.</p>';
@@ -692,38 +715,17 @@ function renderLeaderboard() {
     return;
   }
 
-  const lastMD = mds[mds.length - 1];
   document.getElementById('prevLabel').textContent = `BEFORE ${String(lastMD).toUpperCase()}`;
 
-  // Points without the last matchday
-  const prev = players.map(p=>({
-    name: p.name,
-    total: total(p.pts.slice(0, prevMDCount))
-  })).sort((a,b)=>b.total-a.total);
-
-  // Build rank map for current to compare
-  const currentRankMap = {};
-  current.forEach((p,i) => currentRankMap[p.name] = i+1);
-  const prevRankMap = {};
-  prev.forEach((p,i) => prevRankMap[p.name] = i+1);
-
-  document.getElementById('leaderboardPrev').innerHTML = prev.map((p,i)=>{
-    const currRank = currentRankMap[p.name] || i+1;
-    const diff = (i+1) - currRank; // positive = dropped, negative = rose
-    let changeHtml = '';
-    if (diff < 0)      changeHtml = `<span class="lb-change up">▲${Math.abs(diff)}</span>`;
-    else if (diff > 0) changeHtml = `<span class="lb-change down">▼${diff}</span>`;
-    else               changeHtml = `<span class="lb-change same">–</span>`;
-    return `
+  document.getElementById('leaderboardPrev').innerHTML = prev.map((p,i)=>`
     <div class="lb-card r${i+1}">
       <div class="lb-rank">${i<3 ? medals[i] : i+1}</div>
       <div style="flex:1">
-        <div class="lb-name">${esc(p.name)}${changeHtml}</div>
+        <div class="lb-name">${esc(p.name)}</div>
         <div class="lb-sub">pts without ${esc(String(lastMD))}</div>
       </div>
       <div class="lb-pts">${p.total}</div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 }
 
 function switchTab(tab) {
