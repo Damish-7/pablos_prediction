@@ -524,13 +524,15 @@ loadData();
 
 <header>
   <div class="logo">
-    <div class="logo-ball"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/FIFA_World_Cup_Trophy_2010.jpg/220px-FIFA_World_Cup_Trophy_2010.jpg" alt="FIFA World Cup Trophy" /></div>
+    <div class="logo-ball">🏆</div>
     <div>
       <h1>PABLO'S <span>PREDICTION</span></h1>
-      <div style="color:var(--muted);font-size:0.72rem;margin-top:2px;letter-spacing:1px">POINTS TABLE & LEADERBOARD</div>
+      <div style="color:var(--muted);font-size:0.72rem;margin-top:2px;letter-spacing:1px">
+        sponsored by ZAYED  
+      </div>
     </div>
   </div>
-  <span class="badge">SEASON 2024–25</span>
+  <span class="badge">FIFA 26</span>
 </header>
 
 <div class="admin-bar">
@@ -722,7 +724,7 @@ function renderLeaderboard() {
       <div class="lb-rank">${i<3 ? medals[i] : i+1}</div>
       <div style="flex:1">
         <div class="lb-name">${esc(p.name)}</div>
-        <div class="lb-sub">pts without ${esc(String(lastMD))}</div>
+        <div class="lb-sub">Points without ${esc(String(lastMD))}</div>
       </div>
       <div class="lb-pts">${p.total}</div>
     </div>`).join('');
