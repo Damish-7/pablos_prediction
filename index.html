@@ -1,7 +1,5 @@
 
 
-
-<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +12,7 @@
     --pitch: #0a2e1a; --pitch-mid: #0f3d24; --line: #2ecc71;
     --gold: #f5c518; --silver: #c0c0c0; --bronze: #cd7f32;
     --white: #f0f4f0; --muted: #8aab96; --danger: #e74c3c;
-    --card: rgba(15,61,36,0.7); --border: rgba(46,204,113,0.2);
+    --card: rgba(15,61,36,0.85); --border: rgba(46,204,113,0.2);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -22,95 +20,191 @@
     font-family: 'Inter', sans-serif; min-height: 100vh;
     background-image: repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,0.015) 60px,rgba(255,255,255,0.015) 120px);
   }
+
+  /* ── Header ── */
   header {
     background: linear-gradient(135deg,#071a0e,var(--pitch-mid));
     border-bottom: 2px solid var(--line);
-    padding: 20px 28px; display: flex; align-items: center;
-    justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    padding: 16px 20px; display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 10px;
     position: sticky; top:0; z-index:100;
     box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   }
-  .logo { display:flex; align-items:center; gap:14px; }
-  .logo-ball {
-    width:56px; height:56px;
-    display:flex; align-items:center; justify-content:center;
+  .logo { display:flex; align-items:center; gap:12px; }
+  .logo-trophy {
+    width:48px; height:48px; display:flex; align-items:center; justify-content:center;
     animation: pulse 3s ease-in-out infinite;
     filter: drop-shadow(0 0 10px rgba(245,197,24,0.6));
   }
-  .logo-ball img { width:100%; height:100%; object-fit:contain; }
-  @keyframes pulse { 0%,100%{filter:drop-shadow(0 0 10px rgba(245,197,24,0.6))} 50%{filter:drop-shadow(0 0 22px rgba(245,197,24,1))} }
-  h1 { font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:3px; line-height:1; }
+  .logo-trophy img { width:100%; height:100%; object-fit:contain; }
+  @keyframes pulse { 0%,100%{filter:drop-shadow(0 0 10px rgba(245,197,24,0.5))} 50%{filter:drop-shadow(0 0 24px rgba(245,197,24,1))} }
+  h1 { font-family:'Bebas Neue',cursive; font-size:1.7rem; letter-spacing:3px; line-height:1; }
   h1 span { color:var(--line); }
-  .badge { background:var(--line); color:var(--pitch); font-family:'JetBrains Mono',monospace; font-weight:600; font-size:0.75rem; padding:4px 12px; border-radius:20px; }
-  .admin-bar { background:rgba(0,0,0,0.3); border-bottom:1px solid var(--border); padding:10px 28px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .admin-bar label { font-size:0.8rem; color:var(--muted); }
+  .sub-title { color:var(--muted); font-size:0.65rem; margin-top:2px; letter-spacing:1px; }
+  .badge { background:var(--line); color:var(--pitch); font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.72rem; padding:4px 12px; border-radius:20px; white-space:nowrap; }
+
+  /* ── Control bar ── */
+  .control-bar {
+    background:rgba(0,0,0,0.3); border-bottom:1px solid var(--border);
+    padding:8px 16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  }
+  .control-bar label { font-size:0.75rem; color:var(--muted); }
   #adminToggle {
     background:var(--pitch-mid); border:1px solid var(--border); color:var(--white);
-    padding:6px 16px; border-radius:6px; font-size:0.8rem; cursor:pointer; transition:all 0.2s;
+    padding:5px 14px; border-radius:6px; font-size:0.78rem; cursor:pointer; transition:all 0.2s;
+    font-family:'Inter',sans-serif; font-weight:600;
   }
   #adminToggle.active { background:var(--line); color:var(--pitch); border-color:var(--line); }
-  #syncStatus { font-size:0.75rem; font-family:'JetBrains Mono',monospace; padding:4px 12px; border-radius:20px; margin-left:auto; }
+  .btn-refresh {
+    background:transparent; border:1px solid var(--border); color:var(--muted);
+    padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;
+    transition:all 0.2s; font-family:'Inter',sans-serif;
+  }
+  .btn-refresh:hover { border-color:var(--line); color:var(--white); }
+  #syncStatus { font-size:0.72rem; font-family:'JetBrains Mono',monospace; padding:3px 10px; border-radius:20px; margin-left:auto; }
   .s-ok  { background:rgba(46,204,113,0.15); color:var(--line); }
   .s-syn { background:rgba(245,197,24,0.15); color:var(--gold); }
   .s-err { background:rgba(231,76,60,0.15);  color:var(--danger); }
-  .admin-panel { display:none; background:rgba(7,26,14,0.95); border-bottom:2px solid var(--line); padding:16px 28px; gap:10px; flex-wrap:wrap; align-items:center; }
+
+  /* ── Admin panel ── */
+  .admin-panel { display:none; background:rgba(7,26,14,0.97); border-bottom:2px solid var(--line); padding:14px 16px; gap:8px; flex-wrap:wrap; align-items:center; }
   .admin-panel.open { display:flex; }
-  .admin-panel input { background:var(--pitch-mid); border:1px solid var(--border); color:var(--white); padding:8px 14px; border-radius:6px; font-size:0.85rem; outline:none; }
+  .admin-panel input { background:var(--pitch-mid); border:1px solid var(--border); color:var(--white); padding:7px 12px; border-radius:6px; font-size:0.82rem; outline:none; font-family:'Inter',sans-serif; min-width:160px; flex:1; }
   .admin-panel input:focus { border-color:var(--line); }
-  .btn { padding:8px 18px; border-radius:6px; font-size:0.85rem; font-weight:600; cursor:pointer; border:none; transition:all 0.2s; font-family:'Inter',sans-serif; }
+  .btn { padding:7px 16px; border-radius:6px; font-size:0.82rem; font-weight:600; cursor:pointer; border:none; transition:all 0.2s; font-family:'Inter',sans-serif; white-space:nowrap; }
   .btn-green { background:var(--line); color:var(--pitch); }
   .btn-green:hover { background:#27ae60; }
   .btn-green:disabled { opacity:0.5; cursor:not-allowed; }
-  .btn-red { background:var(--danger); color:#fff; }
   .btn-outline { background:transparent; border:1px solid var(--border); color:var(--muted); }
   .btn-outline:hover { border-color:var(--line); color:var(--white); }
-  .sep { width:1px; height:28px; background:var(--border); }
-  .main { display:flex; min-height:calc(100vh - 140px); }
-  .table-section { flex:1; padding:24px 28px; overflow-x:auto; border-right:1px solid var(--border); }
-  .section-title { font-family:'Bebas Neue',cursive; font-size:1.3rem; letter-spacing:2px; color:var(--line); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .sep { width:1px; height:28px; background:var(--border); flex-shrink:0; }
+
+  /* ── Main content ── */
+  .main { max-width: 700px; margin: 0 auto; padding: 20px 14px 40px; }
+
+  /* ── Tabs (current / previous) ── */
+  .view-tabs { display:flex; gap:8px; margin-bottom:18px; }
+  .view-tab {
+    flex:1; padding:9px 10px; border-radius:8px; font-size:0.8rem; font-weight:600;
+    cursor:pointer; border:1px solid var(--border); background:transparent;
+    color:var(--muted); transition:all 0.2s; font-family:'Inter',sans-serif; text-align:center;
+  }
+  .view-tab.active { background:var(--line); color:var(--pitch); border-color:var(--line); }
+
+  /* ── Section title ── */
+  .section-title {
+    font-family:'Bebas Neue',cursive; font-size:1.1rem; letter-spacing:2px;
+    color:var(--line); margin-bottom:12px; display:flex; align-items:center; gap:8px;
+  }
   .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
-  table { width:100%; border-collapse:collapse; font-size:0.88rem; min-width:460px; }
-  thead tr { background:rgba(46,204,113,0.1); border-bottom:2px solid var(--line); }
-  th { padding:11px 13px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:1px; color:var(--line); font-weight:600; white-space:nowrap; }
-  th.name-col { text-align:left; }
-  tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
-  tbody tr:hover { background:rgba(46,204,113,0.05); }
-  td { padding:10px 13px; text-align:center; font-family:'JetBrains Mono',monospace; font-size:0.88rem; color:var(--muted); }
-  td.name-cell { text-align:left; color:var(--white); font-family:'Inter',sans-serif; font-weight:600; }
-  td.total-cell { color:var(--line); font-weight:700; font-size:1rem; }
-  td.editable { cursor:pointer; }
-  td.editable:hover { color:var(--white); }
-  td input.cell-input { width:58px; background:var(--pitch); border:1px solid var(--line); color:var(--line); text-align:center; padding:4px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.88rem; outline:none; }
-  .del-btn { background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.9rem; opacity:0.4; transition:opacity 0.2s; padding:2px 6px; }
-  .del-btn:hover { opacity:1; }
-  .leaderboard-section { width:290px; min-width:260px; padding:24px 18px; background:rgba(7,26,14,0.5); }
-  .lb-list { display:flex; flex-direction:column; gap:10px; }
-  .lb-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:13px 15px; display:flex; align-items:center; gap:12px; transition:transform 0.2s,border-color 0.2s; }
-  .lb-card:hover { transform:translateX(-4px); border-color:var(--line); }
-  .lb-card.r1 { border-color:var(--gold); background:rgba(245,197,24,0.08); }
-  .lb-card.r2 { border-color:var(--silver); background:rgba(192,192,192,0.06); }
-  .lb-card.r3 { border-color:var(--bronze); background:rgba(205,127,50,0.06); }
-  .lb-rank { font-family:'Bebas Neue',cursive; font-size:1.4rem; width:30px; text-align:center; line-height:1; color:var(--muted); }
-  .r1 .lb-rank{color:var(--gold)} .r2 .lb-rank{color:var(--silver)} .r3 .lb-rank{color:var(--bronze)}
-  .lb-name { font-weight:700; font-size:0.92rem; color:var(--white); }
-  .lb-sub { font-size:0.7rem; color:var(--muted); margin-top:2px; }
-  .lb-pts { font-family:'Bebas Neue',cursive; font-size:1.7rem; color:var(--line); line-height:1; }
-  .r1 .lb-pts{color:var(--gold)} .r2 .lb-pts{color:var(--silver)} .r3 .lb-pts{color:var(--bronze)}
-  .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:200; align-items:center; justify-content:center; }
+  .prev-note { font-size:0.7rem; color:var(--muted); font-family:'JetBrains Mono',monospace; letter-spacing:1px; margin-bottom:14px; text-align:center; }
+
+  /* ── Player cards ── */
+  .player-list { display:flex; flex-direction:column; gap:8px; }
+
+  .player-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .player-card.r1 { border-color: var(--gold); }
+  .player-card.r2 { border-color: var(--silver); }
+  .player-card.r3 { border-color: var(--bronze); }
+  .player-card.expanded { border-color: var(--line); }
+
+  /* ── Card header (always visible) ── */
+  .card-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; cursor: pointer;
+    user-select: none; -webkit-user-select: none;
+  }
+  .card-header:active { background: rgba(255,255,255,0.03); }
+
+  .rank-badge {
+    font-family: 'Bebas Neue', cursive; font-size: 1.4rem;
+    width: 36px; text-align: center; line-height: 1; flex-shrink: 0;
+    color: var(--muted);
+  }
+  .r1 .rank-badge { color: var(--gold); }
+  .r2 .rank-badge { color: var(--silver); }
+  .r3 .rank-badge { color: var(--bronze); }
+
+  .player-info { flex: 1; min-width: 0; }
+  .player-name { font-weight: 700; font-size: 1rem; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .player-meta { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+
+  .rank-change { font-size: 0.72rem; font-weight: 700; margin-left: 6px; }
+  .up   { color: #2ecc71; }
+  .down { color: #e74c3c; }
+  .same { color: var(--muted); }
+
+  .total-pts {
+    font-family: 'Bebas Neue', cursive; font-size: 2rem; line-height: 1;
+    color: var(--line); flex-shrink: 0;
+  }
+  .r1 .total-pts { color: var(--gold); }
+  .r2 .total-pts { color: var(--silver); }
+  .r3 .total-pts { color: var(--bronze); }
+
+  .expand-icon { color: var(--muted); font-size: 0.75rem; flex-shrink:0; transition: transform 0.25s; margin-left: 4px; }
+  .player-card.expanded .expand-icon { transform: rotate(180deg); }
+
+  /* ── Expanded breakdown ── */
+  .card-body {
+    display: none;
+    padding: 0 16px 14px;
+    border-top: 1px solid var(--border);
+  }
+  .player-card.expanded .card-body { display: block; }
+
+  .md-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .md-chip {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .md-chip-label { font-size: 0.62rem; color: var(--muted); font-family:'JetBrains Mono',monospace; letter-spacing:0.5px; }
+  .md-chip-val { font-family:'Bebas Neue',cursive; font-size:1.4rem; color:var(--white); line-height:1; margin-top:2px; }
+  .md-chip-val.empty { color: var(--muted); font-size:1rem; }
+  .md-chip.editable-chip { cursor: pointer; }
+  .md-chip.editable-chip:hover { border-color: var(--line); }
+  .md-chip input.chip-input {
+    width: 100%; background: transparent; border: none; color: var(--line);
+    text-align: center; font-family:'Bebas Neue',cursive; font-size:1.3rem;
+    outline: none; padding: 0;
+  }
+
+  .card-actions { display:flex; gap:8px; margin-top:12px; }
+  .del-btn { background:rgba(231,76,60,0.1); border:1px solid rgba(231,76,60,0.3); color:var(--danger); padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer; font-family:'Inter',sans-serif; font-weight:600; transition:all 0.2s; }
+  .del-btn:hover { background:rgba(231,76,60,0.2); }
+
+  /* ── Empty state ── */
+  .empty-state { text-align:center; padding:40px 20px; color:var(--muted); }
+  .empty-state .icon { font-size:3rem; margin-bottom:12px; }
+  .empty-state p { font-size:0.88rem; }
+
+  /* ── Loading overlay ── */
+  .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:200; align-items:center; justify-content:center; }
   .overlay.show { display:flex; }
   .overlay-box { background:var(--pitch-mid); border:1px solid var(--line); border-radius:14px; padding:32px; text-align:center; }
-  .spinner { width:38px; height:38px; border:3px solid var(--border); border-top-color:var(--line); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 14px; }
+  .spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--line); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 12px; }
   @keyframes spin { to{transform:rotate(360deg)} }
-  .toast { position:fixed; bottom:24px; right:24px; padding:12px 22px; border-radius:10px; font-weight:700; font-size:0.85rem; box-shadow:0 8px 24px rgba(0,0,0,0.4); opacity:0; transform:translateY(10px); transition:all 0.3s; pointer-events:none; z-index:300; }
+
+  /* ── Toast ── */
+  .toast { position:fixed; bottom:20px; right:16px; left:16px; max-width:340px; margin:0 auto; padding:11px 18px; border-radius:10px; font-weight:700; font-size:0.83rem; box-shadow:0 8px 24px rgba(0,0,0,0.4); opacity:0; transform:translateY(10px); transition:all 0.3s; pointer-events:none; z-index:300; text-align:center; }
   .toast.show { opacity:1; transform:translateY(0); }
   .toast.ok  { background:var(--line); color:var(--pitch); }
   .toast.err { background:var(--danger); color:#fff; }
-  .toast.info { background:#2980b9; color:#fff; }
-  @media(max-width:768px){
-    .main{flex-direction:column;}
-    .table-section{padding:16px 12px;border-right:none;border-bottom:1px solid var(--border);}
-    .leaderboard-section{width:100%;padding:16px 12px;}
-  }
 </style>
 </head>
 <body>
@@ -118,30 +212,28 @@
 <div class="overlay" id="loadingOverlay">
   <div class="overlay-box">
     <div class="spinner"></div>
-    <div style="font-family:'Bebas Neue';font-size:1.3rem;letter-spacing:2px;color:var(--line)">LOADING DATA</div>
-    <p style="color:var(--muted);font-size:0.85rem;margin-top:8px">Fetching from Google Sheets...</p>
+    <div style="font-family:'Bebas Neue';font-size:1.2rem;letter-spacing:2px;color:var(--line)">LOADING DATA</div>
+    <p style="color:var(--muted);font-size:0.82rem;margin-top:8px">Fetching from Google Sheets...</p>
   </div>
 </div>
 
 <header>
   <div class="logo">
-    <div class="logo-ball">🏆</div>
-
+    <div class="logo-trophy">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/FIFA_World_Cup_Trophy_2010.jpg/220px-FIFA_World_Cup_Trophy_2010.jpg" alt="Trophy" />
+    </div>
     <div>
       <h1>PABLO'S <span>PREDICTION</span></h1>
-       <div style="color:var(--muted);font-size:0.72rem;margin-top:2px;letter-spacing:1px">
-        sponsored by ZAYED  
-      </div>
+      <div class="sub-title">SPONSORED BY ZAYED</div>
     </div>
   </div>
-
-  <span class="badge">FIFA 2026</span>
+  <span class="badge">FIFA 26</span>
 </header>
 
-<div class="admin-bar">
+<div class="control-bar">
   <label>Controls:</label>
   <button id="adminToggle" onclick="toggleAdmin()">🔧 Edit Mode</button>
-  <button class="btn btn-outline" style="font-size:0.78rem;padding:5px 12px" onclick="loadData()">🔄 Refresh</button>
+  <button class="btn-refresh" onclick="loadData()">🔄 Refresh</button>
   <span id="syncStatus" class="s-ok">● Live</span>
 </div>
 
@@ -149,20 +241,27 @@
   <input type="text" id="newPlayer" placeholder="Player name..." />
   <button class="btn btn-green" id="addPlayerBtn" onclick="addPlayer()">+ Add Player</button>
   <div class="sep"></div>
-  <input type="text" id="newMD" placeholder="Matchday (e.g. MD5)..." />
+  <input type="text" id="newMD" placeholder="Matchday label (e.g. MD5)..." />
   <button class="btn btn-green" id="addMDBtn" onclick="addMatchday()">+ Add Matchday</button>
   <div class="sep"></div>
-  <button class="btn btn-outline" onclick="exportCSV()">⬇ Export CSV</button>
+  <button class="btn btn-outline" onclick="exportCSV()">⬇ CSV</button>
 </div>
 
 <div class="main">
-  <div class="table-section">
-    <div class="section-title">📋 Points Table</div>
-    <div id="tableWrap"></div>
+  <div class="view-tabs">
+    <button class="view-tab active" id="tabCurrent" onclick="switchTab('current')">🏆 Current Standing</button>
+    <button class="view-tab" id="tabPrev" onclick="switchTab('prev')">⏮ Previous MD</button>
   </div>
-  <div class="leaderboard-section">
-    <div class="section-title">🏆 Leaderboard</div>
-    <div class="lb-list" id="leaderboard"></div>
+
+  <div id="viewCurrent">
+    <div class="section-title">📋 Leaderboard</div>
+    <div class="player-list" id="currentList"></div>
+  </div>
+
+  <div id="viewPrev" style="display:none">
+    <div class="section-title">⏮ Previous Matchday</div>
+    <div class="prev-note" id="prevNote">STANDINGS BEFORE LATEST MATCHDAY</div>
+    <div class="player-list" id="prevList"></div>
   </div>
 </div>
 
@@ -171,24 +270,23 @@
 <script>
 const API = "https://script.google.com/macros/s/AKfycbzIyff77JExYj4wSNIiKe2fm15Aph86u4evgjPW-VnVd1uI64ouiiahzhr2_dgS_ADtRg/exec";
 
-let sheet = [];   // raw 2D array
+let sheet = [];
 let adminOpen = false;
 let busy = false;
+let expandedCards = new Set(); // track which players are expanded
 
-// ── Core fetch (GET only — no CORS issues) ──
+// ── API ──
 async function gsFetch(params) {
   const url = API + "?" + new URLSearchParams(params).toString() + "&t=" + Date.now();
   const res = await fetch(url);
   return res.json();
 }
 
-// ── Load data ──
 async function loadData() {
   setSyncStatus('syn', '⟳ Loading...');
   document.getElementById('loadingOverlay').classList.add('show');
   try {
-    const data = await gsFetch({ action: 'read' });
-    sheet = data;
+    sheet = await gsFetch({ action: 'read' });
     setSyncStatus('ok', '● Live');
     renderAll();
     showToast('Data loaded ✓', 'ok');
@@ -200,7 +298,6 @@ async function loadData() {
   }
 }
 
-// ── Write via GET (no CORS problem) ──
 async function gsWrite(params) {
   setSyncStatus('syn', '⟳ Saving...');
   try {
@@ -217,77 +314,152 @@ async function gsWrite(params) {
 
 function setSyncStatus(cls, text) {
   const el = document.getElementById('syncStatus');
-  el.className = 's-' + cls;
-  el.id = 'syncStatus';
-  el.textContent = text;
+  el.className = 's-' + cls; el.id = 'syncStatus'; el.textContent = text;
 }
 
 // ── Helpers ──
 function getMatchdays() { return sheet.length ? sheet[0].slice(1) : []; }
-function getPlayers()   { return sheet.slice(1).map(r => ({ name: r[0], pts: r.slice(1) })); }
-function total(pts)     { return pts.reduce((a,b) => a + (parseInt(b)||0), 0); }
+function getPlayers()   { return sheet.slice(1).map((r,i) => ({ name: r[0], pts: r.slice(1), sheetRow: i+2 })); }
+function total(pts)     { return pts.reduce((a,b) => a+(parseInt(b)||0), 0); }
 
 // ── Render ──
-function renderAll() { renderTable(); renderLeaderboard(); }
+function renderAll() {
+  renderCurrent();
+  renderPrev();
+}
 
-function renderTable() {
+function buildCard(p, rank, mds, changeHtml, showAdmin, isPrev) {
+  const tot = total(p.pts);
+  const rankClass = rank <= 3 ? `r${rank}` : '';
+  const medals = ['🥇','🥈','🥉'];
+  const rankDisplay = rank <= 3 ? medals[rank-1] : rank;
+  const isExpanded = expandedCards.has(p.name);
+
+  const mdChips = mds.map((md, mi) => {
+    const v = p.pts[mi] ?? '';
+    const sCol = mi + 2;
+    if (showAdmin && !isPrev) {
+      return `<div class="md-chip editable-chip" onclick="startChipEdit(this,${p.sheetRow},${sCol},'${escA(String(v))}',event)">
+        <div class="md-chip-label">${esc(String(md))}</div>
+        <div class="md-chip-val ${v===''?'empty':''}" id="chip-${p.sheetRow}-${sCol}">${v!=='' ? v : '–'}</div>
+      </div>`;
+    }
+    return `<div class="md-chip">
+      <div class="md-chip-label">${esc(String(md))}</div>
+      <div class="md-chip-val ${v===''?'empty':''}">${v!=='' ? v : '–'}</div>
+    </div>`;
+  }).join('');
+
+  const deleteBtn = showAdmin && !isPrev
+    ? `<div class="card-actions"><button class="del-btn" onclick="removePlayer(${p.sheetRow},'${escA(p.name)}',event)">✕ Remove Player</button></div>`
+    : '';
+
+  return `
+  <div class="player-card ${rankClass} ${isExpanded?'expanded':''}" id="card-${esc(p.name).replace(/\s/g,'_')}">
+    <div class="card-header" onclick="toggleCard('${escA(p.name)}')">
+      <div class="rank-badge">${rankDisplay}</div>
+      <div class="player-info">
+        <div class="player-name">${esc(p.name)}${changeHtml}</div>
+        <div class="player-meta">tap to see matchday breakdown</div>
+      </div>
+      <div class="total-pts">${tot}</div>
+      <div class="expand-icon">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="md-grid">${mdChips}</div>
+      ${deleteBtn}
+    </div>
+  </div>`;
+}
+
+function renderCurrent() {
   const mds = getMatchdays();
   const players = getPlayers();
+  const el = document.getElementById('currentList');
+
   if (!players.length) {
-    document.getElementById('tableWrap').innerHTML =
-      '<p style="color:var(--muted);padding:20px">No players yet. Enable Edit Mode to add players.</p>';
+    el.innerHTML = `<div class="empty-state"><div class="icon">⚽</div><p>No players yet.<br>Enable Edit Mode to add players.</p></div>`;
     return;
   }
-  let h = `<table><thead><tr>
-    <th class="name-col">PLAYER</th>
-    ${mds.map(m=>`<th>${esc(String(m))}</th>`).join('')}
-    <th>TOTAL</th>
-    ${adminOpen ? '<th></th>' : ''}
-  </tr></thead><tbody>`;
 
-  players.forEach((p, pi) => {
-    const sRow = pi + 2;
-    h += `<tr>
-      <td class="name-cell">${esc(p.name)}</td>
-      ${mds.map((_,mi) => {
-        const v = p.pts[mi] ?? '';
-        const sCol = mi + 2;
-        if (adminOpen) return `<td class="editable" onclick="startEdit(this,${sRow},${sCol},'${escA(String(v))}')">${v!=='' ? v : '<span style="opacity:.3">–</span>'}</td>`;
-        return `<td>${v!=='' ? v : '<span style="opacity:.3">–</span>'}</td>`;
-      }).join('')}
-      <td class="total-cell">${total(p.pts)}</td>
-      ${adminOpen ? `<td><button class="del-btn" onclick="removePlayer(${sRow},'${escA(p.name)}')">✕</button></td>` : ''}
-    </tr>`;
-  });
-  h += '</tbody></table>';
-  document.getElementById('tableWrap').innerHTML = h;
+  // Previous standings for rank change arrows
+  const prevMDCount = mds.length - 1;
+  const prev = prevMDCount > 0
+    ? [...players].map(p=>({name:p.name, total:total(p.pts.slice(0,prevMDCount))})).sort((a,b)=>b.total-a.total)
+    : [];
+  const prevRankMap = {};
+  prev.forEach((p,i) => prevRankMap[p.name] = i+1);
+
+  const sorted = [...players].map(p=>({...p, tot:total(p.pts)})).sort((a,b)=>b.tot-a.tot);
+
+  el.innerHTML = sorted.map((p, i) => {
+    const rank = i + 1;
+    const prevRank = prevRankMap[p.name];
+    let changeHtml = '';
+    if (prevRank !== undefined && prevMDCount > 0) {
+      const diff = prevRank - rank;
+      if (diff > 0)      changeHtml = `<span class="rank-change up">▲${diff}</span>`;
+      else if (diff < 0) changeHtml = `<span class="rank-change down">▼${Math.abs(diff)}</span>`;
+      else               changeHtml = `<span class="rank-change same">–</span>`;
+    }
+    return buildCard(p, rank, mds, changeHtml, adminOpen, false);
+  }).join('');
 }
 
-function renderLeaderboard() {
-  const ranked = getPlayers().map(p=>({name:p.name,total:total(p.pts)})).sort((a,b)=>b.total-a.total);
-  const medals = ['🥇','🥈','🥉'];
-  document.getElementById('leaderboard').innerHTML = ranked.map((p,i)=>`
-    <div class="lb-card r${i+1}">
-      <div class="lb-rank">${i<3 ? medals[i] : i+1}</div>
-      <div style="flex:1">
-        <div class="lb-name">${esc(p.name)}</div>
-        <div class="lb-sub">total points</div>
-      </div>
-      <div class="lb-pts">${p.total}</div>
-    </div>`).join('');
+function renderPrev() {
+  const mds = getMatchdays();
+  const players = getPlayers();
+  const el = document.getElementById('prevList');
+  const prevMDCount = mds.length - 1;
+
+  if (prevMDCount <= 0) {
+    el.innerHTML = `<div class="empty-state"><div class="icon">📅</div><p>Not enough matchdays yet.</p></div>`;
+    return;
+  }
+
+  const lastMD = String(mds[mds.length-1]);
+  document.getElementById('prevNote').textContent = `STANDINGS BEFORE ${lastMD.toUpperCase()}`;
+
+  const sorted = [...players]
+    .map(p => ({ ...p, pts: p.pts.slice(0, prevMDCount) }))
+    .map(p => ({...p, tot: total(p.pts)}))
+    .sort((a,b) => b.tot - a.tot);
+
+  el.innerHTML = sorted.map((p, i) =>
+    buildCard(p, i+1, mds.slice(0, prevMDCount), '', false, true)
+  ).join('');
 }
 
-// ── Edit cell ──
-function startEdit(cell, row, col, cur) {
+// ── Toggle expand ──
+function toggleCard(name) {
+  if (expandedCards.has(name)) expandedCards.delete(name);
+  else expandedCards.add(name);
+  renderAll();
+}
+
+// ── Tab switch ──
+function switchTab(tab) {
+  const isCurr = tab === 'current';
+  document.getElementById('viewCurrent').style.display = isCurr ? 'block' : 'none';
+  document.getElementById('viewPrev').style.display    = isCurr ? 'none'  : 'block';
+  document.getElementById('tabCurrent').classList.toggle('active', isCurr);
+  document.getElementById('tabPrev').classList.toggle('active', !isCurr);
+}
+
+// ── Chip edit ──
+function startChipEdit(chip, row, col, cur, event) {
+  event.stopPropagation();
   if (!adminOpen || busy) return;
-  cell.innerHTML = `<input class="cell-input" type="number" min="0" max="99" value="${cur==='–'?'':cur}"
-    onblur="commitEdit(this,${row},${col})"
+  const valDiv = chip.querySelector('.md-chip-val');
+  valDiv.innerHTML = `<input class="chip-input" type="number" min="0" max="99" value="${cur==='–'?'':cur}"
+    onblur="commitChipEdit(this,${row},${col})"
     onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape'){renderAll();}"
+    onclick="event.stopPropagation()"
     autofocus />`;
-  cell.querySelector('input').select();
+  valDiv.querySelector('input').select();
 }
 
-async function commitEdit(inp, row, col) {
+async function commitChipEdit(inp, row, col) {
   if (busy) return;
   busy = true;
   const val = inp.value.trim();
@@ -302,21 +474,19 @@ async function addPlayer() {
   const inp = document.getElementById('newPlayer');
   const name = inp.value.trim();
   if (!name || busy) return;
-  busy = true;
-  setBtnLoading('addPlayerBtn', true);
-  inp.value = '';
-  const mds = getMatchdays();
-  const rowData = JSON.stringify([name, ...Array(mds.length).fill('')]);
+  busy = true; setBtnLoading('addPlayerBtn', true); inp.value = '';
+  const rowData = JSON.stringify([name, ...Array(getMatchdays().length).fill('')]);
   const ok = await gsWrite({ action:'addRow', rowData });
   if (ok) showToast(`${name} added ✓`, 'ok');
-  setBtnLoading('addPlayerBtn', false);
-  busy = false;
+  setBtnLoading('addPlayerBtn', false); busy = false;
 }
 
 // ── Remove Player ──
-async function removePlayer(row, name) {
+async function removePlayer(row, name, event) {
+  event.stopPropagation();
   if (!confirm(`Remove "${name}"?`) || busy) return;
   busy = true;
+  expandedCards.delete(name);
   const ok = await gsWrite({ action:'deleteRow', row });
   if (ok) showToast(`${name} removed`, 'ok');
   busy = false;
@@ -327,23 +497,17 @@ async function addMatchday() {
   const inp = document.getElementById('newMD');
   const label = inp.value.trim() || `MD${getMatchdays().length+1}`;
   if (busy) return;
-  busy = true;
-  setBtnLoading('addMDBtn', true);
-  inp.value = '';
+  busy = true; setBtnLoading('addMDBtn', true); inp.value = '';
   const ok = await gsWrite({ action:'addColumn', header: label });
   if (ok) showToast(`${label} added ✓`, 'ok');
-  setBtnLoading('addMDBtn', false);
-  busy = false;
+  setBtnLoading('addMDBtn', false); busy = false;
 }
 
-// ── Admin toggle ──
+// ── Admin ──
 function toggleAdmin() {
   if (!adminOpen) {
     const pwd = prompt("Enter password to enable Edit Mode:");
-    if (pwd !== "zayed") {
-      showToast("Wrong password ✕", "err");
-      return;
-    }
+    if (pwd !== "zayed") { showToast("Wrong password ✕", "err"); return; }
   }
   adminOpen = !adminOpen;
   document.getElementById('adminPanel').classList.toggle('open', adminOpen);
@@ -355,44 +519,37 @@ function toggleAdmin() {
 
 // ── Export CSV ──
 function exportCSV() {
-  const mds = getMatchdays();
-  const players = getPlayers();
+  const mds = getMatchdays(); const players = getPlayers();
   let csv = ['Player',...mds,'Total'].join(',') + '\n';
   players.forEach(p => { csv += [p.name,...p.pts.map(v=>v===''?0:v),total(p.pts)].join(',') + '\n'; });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download = `pablos-prediction-${Date.now()}.csv`;
-  a.click();
+  a.download = `pablos-prediction-${Date.now()}.csv`; a.click();
 }
 
 function setBtnLoading(id, loading) {
-  const btn = document.getElementById(id);
-  if (!btn) return;
+  const btn = document.getElementById(id); if (!btn) return;
   btn.disabled = loading;
   btn.textContent = loading ? '⟳ Saving...' : (id==='addPlayerBtn' ? '+ Add Player' : '+ Add Matchday');
 }
 
 function showToast(msg, type='ok') {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = `toast ${type} show`;
+  el.textContent = msg; el.className = `toast ${type} show`;
   setTimeout(()=>el.classList.remove('show'), 2500);
 }
 
 function esc(s)  { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function escA(s) { return String(s).replace(/'/g,"\\'"); }
+function escA(s) { return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
 
-// Auto-refresh every 60s
 setInterval(loadData, 60000);
 loadData();
 </script>
 </body>
 </html>
---->
 
 
-
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -848,4 +1005,4 @@ setInterval(loadData, 60000);
 loadData();
 </script>
 </body>
-</html>
+</html> -->
