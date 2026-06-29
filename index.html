@@ -545,6 +545,8 @@ loadData();
 </body>
 </html> -->
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -754,9 +756,7 @@ loadData();
 
 <header>
   <div class="logo">
-    <div class="logo-trophy">
-      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/FIFA_World_Cup_Trophy_2010.jpg/220px-FIFA_World_Cup_Trophy_2010.jpg" alt="Trophy" />
-    </div>
+    <div class="logo-trophy" style="font-size:2.2rem;">🏆</div>
     <div>
       <h1>PABLO'S <span>PREDICTION</span></h1>
       <div class="sub-title">SPONSORED BY ZAYED</div>
@@ -784,8 +784,9 @@ loadData();
 
 <div class="main">
   <div class="view-tabs">
-    <button class="view-tab active" id="tabCurrent" onclick="switchTab('current')">🏆 Current Standing</button>
+    <button class="view-tab active" id="tabCurrent" onclick="switchTab('current')">🏆 Current</button>
     <button class="view-tab" id="tabPrev" onclick="switchTab('prev')">⏮ Previous MD</button>
+    <button class="view-tab" id="tabAvg" onclick="switchTab('avg')">📊 Avg/MD</button>
   </div>
 
   <div id="viewCurrent">
@@ -797,6 +798,12 @@ loadData();
     <div class="section-title">⏮ Previous Matchday</div>
     <div class="prev-note" id="prevNote">STANDINGS BEFORE LATEST MATCHDAY</div>
     <div class="player-list" id="prevList"></div>
+  </div>
+
+  <div id="viewAvg" style="display:none">
+    <div class="section-title">📊 Avg Points / Matchday</div>
+    <div class="prev-note">RANKED BY AVERAGE — FAIR FOR LATE JOINERS</div>
+    <div class="player-list" id="avgList"></div>
   </div>
 </div>
 
@@ -863,7 +870,7 @@ function avgData(pts) {
 }
 
 // ── Render ──
-function renderAll() { renderCurrent(); renderPrev(); }
+function renderAll() { renderCurrent(); renderPrev(); renderAvg(); }
 
 function buildCard(p, rank, mds, changeHtml, showAdmin, isPrev) {
   const tot = total(p.pts);
@@ -977,11 +984,73 @@ function toggleCard(name) {
 }
 
 function switchTab(tab) {
-  const isCurr = tab === 'current';
-  document.getElementById('viewCurrent').style.display = isCurr ? 'block' : 'none';
-  document.getElementById('viewPrev').style.display    = isCurr ? 'none'  : 'block';
-  document.getElementById('tabCurrent').classList.toggle('active', isCurr);
-  document.getElementById('tabPrev').classList.toggle('active', !isCurr);
+  document.getElementById('viewCurrent').style.display = tab==='current' ? 'block' : 'none';
+  document.getElementById('viewPrev').style.display    = tab==='prev'    ? 'block' : 'none';
+  document.getElementById('viewAvg').style.display     = tab==='avg'     ? 'block' : 'none';
+  document.getElementById('tabCurrent').classList.toggle('active', tab==='current');
+  document.getElementById('tabPrev').classList.toggle('active',    tab==='prev');
+  document.getElementById('tabAvg').classList.toggle('active',     tab==='avg');
+}
+
+function renderAvg() {
+  const mds = getMatchdays();
+  const players = getPlayers();
+  const el = document.getElementById('avgList');
+
+  if (!players.length) {
+    el.innerHTML = `<div class="empty-state"><div class="icon">📊</div><p>No players yet.</p></div>`;
+    return;
+  }
+
+  // Sort by avg descending, then total as tiebreaker
+  const sorted = [...players].map(p => {
+    const avg = avgData(p.pts);
+    return { ...p, avgVal: avg.val === '–' ? 0 : parseFloat(avg.val), played: avg.played, avg };
+  }).sort((a,b) => b.avgVal - a.avgVal || total(b.pts) - total(a.pts));
+
+  const medals = ['🥇','🥈','🥉'];
+
+  el.innerHTML = sorted.map((p, i) => {
+    const rank = i + 1;
+    const rankClass = rank <= 3 ? `r${rank}` : '';
+    const rankDisplay = rank <= 3 ? medals[rank-1] : rank;
+    const isExpanded = expandedCards.has('avg_' + p.name);
+    const tot = total(p.pts);
+
+    const mdChips = mds.map((md, mi) => {
+      const v = p.pts[mi] ?? '';
+      return `<div class="md-chip">
+        <div class="md-chip-label">${esc(String(md))}</div>
+        <div class="md-chip-val ${v===''?'empty':''}">${v!=='' ? v : '–'}</div>
+      </div>`;
+    }).join('');
+
+    return `
+    <div class="player-card ${rankClass} ${isExpanded?'expanded':''}" id="avgcard-${esc(p.name).replace(/\s/g,'_')}">
+      <div class="card-header" onclick="toggleAvgCard('${escA(p.name)}')">
+        <div class="rank-badge">${rankDisplay}</div>
+        <div class="player-info">
+          <div class="player-name">${esc(p.name)}</div>
+          <div class="player-meta">${p.played} matchday${p.played!==1?'s':''} played · ${tot} total pts</div>
+        </div>
+        <div class="pts-block">
+          <div class="total-pts" style="font-size:1.6rem">${p.avg.val}</div>
+          <div class="avg-pts">pts <span>per MD</span></div>
+        </div>
+        <div class="expand-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="md-grid">${mdChips}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleAvgCard(name) {
+  const key = 'avg_' + name;
+  if (expandedCards.has(key)) expandedCards.delete(key);
+  else expandedCards.add(key);
+  renderAvg();
 }
 
 function startChipEdit(chip, row, col, cur, event) {
@@ -1080,3 +1149,4 @@ loadData();
 </script>
 </body>
 </html>
+
